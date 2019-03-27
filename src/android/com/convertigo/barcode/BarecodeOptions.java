@@ -22,6 +22,16 @@ public class BarecodeOptions implements Serializable {
     private int textUpColor;
     private Boolean onlyScan = false;
     private Boolean onlyKeyboard = false;
+    private String imgPath;
+
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String onlyScan) {
+        this.imgPath = imgPath;
+    }
 
     public Boolean getOnlyScan() {
         return onlyScan;

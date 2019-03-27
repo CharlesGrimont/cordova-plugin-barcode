@@ -107,6 +107,7 @@ public class ConvScannerPlugin extends CordovaPlugin {
 	}
 		
 	public void start(){
+        String imgPath;
 		String laserColor;
         String maskColor;
         String textDown;
@@ -122,6 +123,14 @@ public class ConvScannerPlugin extends CordovaPlugin {
 
         try {
             JSONObject jObj = (JSONObject)this._args.get(0);
+
+            try{
+                imgPath = jObj.getString("imgPath");
+                barecodeOpts.setImgPath(imgPath);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter imgPath not set or incorrect");
+            }
 
             try{
                 laserColor = jObj.getString("laserColor");

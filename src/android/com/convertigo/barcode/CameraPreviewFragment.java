@@ -1,7 +1,8 @@
 package com.convertigo.barcode;
 
 import java.util.ArrayList;
-
+import java.io.InputStream;
+import android.graphics.BitmapFactory;
 import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
+import android.util.Log;
 
 
 
@@ -38,6 +41,8 @@ public class CameraPreviewFragment	extends Fragment implements ConvZBarScannerVi
 		int idDown = getResources().getIdentifier("text_view_id_down","id", getActivity().getApplication().getPackageName());
 		int idkbButton = getResources().getIdentifier("kbButton","id", getActivity().getApplication().getPackageName());
 		int idscanButton = getResources().getIdentifier("scanButton","id", getActivity().getApplication().getPackageName());
+		int idImg = getResources().getIdentifier("imageView1","id", getActivity().getApplication().getPackageName());
+
 
 		// Get barcodeOpts
 		this.barecodeOpts = ((ConvScannerActivity)inflater.getContext()).barecodeOpts;
@@ -52,6 +57,18 @@ public class CameraPreviewFragment	extends Fragment implements ConvZBarScannerVi
 		TextView tvtDown = rootView.findViewById(idDown);
 		tvtDown.setText(this.barecodeOpts.getTextDown());
 		tvtDown.setTextColor(this.barecodeOpts.getTextDownColor());
+
+		if(!this.barecodeOpts.getImgPath().equals(null) && !this.barecodeOpts.getImgPath().equals("")){
+			try {
+				InputStream is = getContext().getAssets().open("www/assets/" + this.barecodeOpts.getImgPath() );
+				ImageView imgV = rootView.findViewById(idImg);
+				imgV.setImageBitmap(BitmapFactory.decodeStream(is));
+				
+			} catch(final Exception tx) {
+	
+			}
+		}
+		
 
 		// Disable button
 		if(this.barecodeOpts.getOnlyKeyboard() || this.barecodeOpts.getOnlyScan()){
