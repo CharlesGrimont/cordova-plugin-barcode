@@ -1,5 +1,6 @@
 package com.convertigo.barcode;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.io.InputStream;
 import android.graphics.BitmapFactory;
