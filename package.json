@@ -1,5 +1,5 @@
 {
-    "version": "0.3.25",
+    "version": "0.3.26",
     "name": "com.convertigo.barcode",
     "cordova_name": "ConvScannerPlugin",
     "description": "ConvBarcodeScanner for quick scans.",
