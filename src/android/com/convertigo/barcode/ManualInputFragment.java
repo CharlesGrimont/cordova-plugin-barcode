@@ -50,16 +50,19 @@ public class ManualInputFragment extends Fragment{
 		 tvtDown.setText(this.barecodeOpts.getTextDown());
 		 tvtDown.setTextColor(this.barecodeOpts.getTextDownColor());
 
-		 if(!this.barecodeOpts.getImgPath().equals(null) && !this.barecodeOpts.getImgPath().equals("")){
-			try {
-				InputStream is = getContext().getAssets().open("www/assets/" + this.barecodeOpts.getImgPath() );
-				ImageView imgV = rootView.findViewById(idImg);
-				imgV.setImageBitmap(BitmapFactory.decodeStream(is));
-				
-			} catch(final Exception tx) {
-	
+		 if(!this.barecodeOpts.getImgPath() == null){
+			if(!this.barecodeOpts.getImgPath().equals("")){
+				try {
+					InputStream is = getContext().getAssets().open("www/assets/" + this.barecodeOpts.getImgPath() );
+					ImageView imgV = rootView.findViewById(idImg);
+					imgV.setImageBitmap(BitmapFactory.decodeStream(is));
+					
+				} catch(final Exception tx) {
+		
+				}
 			}
-		}
+		 }
+		 
 
 		// Disable button
 		 if(this.barecodeOpts.getOnlyKeyboard() || this.barecodeOpts.getOnlyScan()){

@@ -69,7 +69,7 @@ public class CameraPreviewFragment	extends Fragment implements ConvZBarScannerVi
 		tvtDown.setText(this.barecodeOpts.getTextDown());
 		tvtDown.setTextColor(this.barecodeOpts.getTextDownColor());
 
-		if(!this.barecodeOpts.getImgPath().equals(null) && !this.barecodeOpts.getImgPath().equals("")){
+		if(!this.barecodeOpts.getImgPath().equals("")){
 			try {
 				InputStream is = getContext().getAssets().open("www/assets/" + this.barecodeOpts.getImgPath() );
 				ImageView imgV = rootView.findViewById(idImg);
