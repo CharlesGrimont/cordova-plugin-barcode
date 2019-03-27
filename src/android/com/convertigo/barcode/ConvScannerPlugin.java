@@ -34,7 +34,7 @@ public class ConvScannerPlugin extends CordovaPlugin {
 	private CordovaPlugin	_this;
     private CallbackContext _cordovaCallbackContext;
 	public static final String CAMERA = Manifest.permission.CAMERA;
-	private JSONArray args;
+	private JSONArray _args;
 
 	public ConvScannerPlugin() {}
 
@@ -73,6 +73,7 @@ public class ConvScannerPlugin extends CordovaPlugin {
 	public boolean execute(final String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         this._cordovaCallbackContext = callbackContext;
 		Log.d("herehere", args.toString());
+		this._args = args;
 		
         if(action.equals("Scan"))
         {
@@ -113,7 +114,7 @@ public class ConvScannerPlugin extends CordovaPlugin {
         BarecodeOptions barecodeOpts = new BarecodeOptions();
 
         try {
-            JSONObject jObj = (JSONObject)args.get(0);
+            JSONObject jObj = (JSONObject)this._args.get(0);
 
             try{
                 laserColor = jObj.getString("laserColor");
