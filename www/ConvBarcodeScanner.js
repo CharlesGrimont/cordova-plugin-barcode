@@ -23,7 +23,7 @@ module.exports = {
 
 parametersAsArray = (parameters)=> {
 	let array = [];
-	if(parameters != undefined){
+	if(parameters == undefined){
 		return null;
 	}
 	else{
