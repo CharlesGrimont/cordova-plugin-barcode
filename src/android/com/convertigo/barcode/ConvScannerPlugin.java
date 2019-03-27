@@ -33,7 +33,8 @@ public class ConvScannerPlugin extends CordovaPlugin {
 
 	private CordovaPlugin	_this;
     private CallbackContext _cordovaCallbackContext;
-    public static final String CAMERA = Manifest.permission.CAMERA;
+	public static final String CAMERA = Manifest.permission.CAMERA;
+	private JSONArray args;
 
 	public ConvScannerPlugin() {}
 
@@ -41,7 +42,9 @@ public class ConvScannerPlugin extends CordovaPlugin {
 		super.initialize(cordova, webView);
 		Log.i("convertigo","Init Plugin!");
 		this._this = this;
-    }
+	}
+	
+
     
     public void onRequestPermissionResult(int requestCode, String[] permissions,
                                          int[] grantResults) throws JSONException
@@ -69,7 +72,8 @@ public class ConvScannerPlugin extends CordovaPlugin {
 	
 	public boolean execute(final String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         this._cordovaCallbackContext = callbackContext;
-        Log.d("herehere", args.toString());
+		Log.d("herehere", args.toString());
+		
         if(action.equals("Scan"))
         {
             cordova.getActivity().runOnUiThread(new Runnable() {
@@ -95,17 +99,116 @@ public class ConvScannerPlugin extends CordovaPlugin {
 	}
 		
 	public void start(){
-		BarecodeOptions barecodeOpts = new BarecodeOptions();
-        barecodeOpts.setLaserColor("#ff0000");
-        barecodeOpts.setLaserEnabled(true);
-        barecodeOpts.setMaskColor("#eeeeee");
-        barecodeOpts.setMaskOpacity((float)0.5);
-        barecodeOpts.setTextDown("My text down");
-        barecodeOpts.setTextUp("My text uo");
-        barecodeOpts.setSquaredEnabled(false);
-        barecodeOpts.setBorderColor("#ff0000");
-        barecodeOpts.setTextUpColor("#000000");
-        barecodeOpts.setTextDownColor("#000000");
+		String laserColor;
+        String maskColor;
+        String textDown;
+        String textUp;
+        String borderColor;
+        String textUpColor;
+        String textDownColor;
+        Boolean laserEnabled;
+        Boolean squareEnabled;
+        float maskOpacity;
+
+        BarecodeOptions barecodeOpts = new BarecodeOptions();
+
+        try {
+            JSONObject jObj = (JSONObject)args.get(0);
+
+            try{
+                laserColor = jObj.getString("laserColor");
+                barecodeOpts.setLaserColor(laserColor);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter laserColor not set or incorrect");
+            }
+
+            try{
+                laserEnabled = jObj.getBoolean("laserEnabled");
+                barecodeOpts.setLaserEnabled(laserEnabled);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter laserEnabled not set or incorrect");
+            }
+
+            try{
+                maskColor = jObj.getString("maskColor");
+                barecodeOpts.setMaskColor(maskColor);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter maskColor not set or incorrect");
+            }
+
+            try{
+                maskOpacity = (float)jObj.getDouble("maskOpacity");
+                barecodeOpts.setMaskOpacity(maskOpacity);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter maskOpacity not set or incorrect");
+            }
+
+            try{
+                textDown = jObj.getString("textDown");
+                barecodeOpts.setTextDown(textDown);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter textDown not set or incorrect");
+            }
+
+            try{
+                textUp = jObj.getString("textUp");
+                barecodeOpts.setTextUp(textUp);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter textUp not set or incorrect");
+            }
+
+            try{
+                squareEnabled = jObj.getBoolean("squareEnabled");
+                barecodeOpts.setSquaredEnabled(squareEnabled);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter squareEnabled not set or incorrect");
+            }
+
+            try{
+                borderColor = jObj.getString("borderColor");
+                barecodeOpts.setBorderColor(borderColor);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter borderColor not set or incorrect");
+            }
+
+            try{
+                textUpColor = jObj.getString("textUpColor");
+                barecodeOpts.setTextUpColor(textUpColor);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter textUpColor not set or incorrect");
+            }
+
+            try{
+                textDownColor = jObj.getString("textDownColor");
+                barecodeOpts.setTextDownColor(textDownColor);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter textDownColor not set or incorrect");
+            }
+
+
+        } catch (JSONException e) {
+            Log.d("ConvBarCode", "Cannot read parameters we will use default parameters");
+            barecodeOpts.setLaserColor("#ff0000");
+            barecodeOpts.setLaserEnabled(true);
+            barecodeOpts.setMaskColor("#eeeeee");
+            barecodeOpts.setMaskOpacity((float)0.5);
+            barecodeOpts.setTextDown("My text down");
+            barecodeOpts.setTextUp("My text up");
+            barecodeOpts.setSquaredEnabled(false);
+            barecodeOpts.setBorderColor("#ff0000");
+            barecodeOpts.setTextUpColor("#000000");
+            barecodeOpts.setTextDownColor("#000000");
+        }
 		Context context = cordova.getActivity().getApplicationContext();
         Intent intent = new Intent(context, ConvScannerActivity.class);
         intent.putExtra("options",barecodeOpts);
