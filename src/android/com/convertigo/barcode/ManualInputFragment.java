@@ -50,7 +50,7 @@ public class ManualInputFragment extends Fragment{
 		 tvtDown.setText(this.barecodeOpts.getTextDown());
 		 tvtDown.setTextColor(this.barecodeOpts.getTextDownColor());
 
-		 if(!this.barecodeOpts.getImgPath() == null){
+		 if(this.barecodeOpts.getImgPath() != null){
 			if(!this.barecodeOpts.getImgPath().equals("")){
 				try {
 					InputStream is = getContext().getAssets().open("www/assets/" + this.barecodeOpts.getImgPath() );

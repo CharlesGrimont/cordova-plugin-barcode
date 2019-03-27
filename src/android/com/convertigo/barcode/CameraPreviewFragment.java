@@ -69,16 +69,18 @@ public class CameraPreviewFragment	extends Fragment implements ConvZBarScannerVi
 		tvtDown.setText(this.barecodeOpts.getTextDown());
 		tvtDown.setTextColor(this.barecodeOpts.getTextDownColor());
 
-		if(!this.barecodeOpts.getImgPath().equals("")){
-			try {
-				InputStream is = getContext().getAssets().open("www/assets/" + this.barecodeOpts.getImgPath() );
-				ImageView imgV = rootView.findViewById(idImg);
-				imgV.setImageBitmap(BitmapFactory.decodeStream(is));
-				
-			} catch(final Exception tx) {
-	
+		if(this.barecodeOpts.getImgPath() != null){
+			if(!this.barecodeOpts.getImgPath().equals("")){
+				try {
+					InputStream is = getContext().getAssets().open("www/assets/" + this.barecodeOpts.getImgPath() );
+					ImageView imgV = rootView.findViewById(idImg);
+					imgV.setImageBitmap(BitmapFactory.decodeStream(is));
+					
+				} catch(final Exception tx) {
+		
+				}
 			}
-		}
+		 }
 		
 
 		// Disable button
