@@ -29,5 +29,6 @@ parametersAsArray = (parameters)=> {
 	else{
 		parameters["laserColor"] != undefined ? array.push(parameters["laserColor"]) : array.push(null);
 		parameters["laserEnabled"] != undefined ? array.push(parameters["laserEnabled"]) : array.push(null);
+		return array;
 	}
 };

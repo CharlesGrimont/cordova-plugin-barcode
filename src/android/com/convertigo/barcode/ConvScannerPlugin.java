@@ -14,11 +14,10 @@ import android.content.Intent;
 import android.app.Activity;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -33,7 +32,8 @@ public class ConvScannerPlugin extends CordovaPlugin {
 	private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
 
 	private CordovaPlugin	_this;
-	private CallbackContext _cordovaCallbackContext;
+    private CallbackContext _cordovaCallbackContext;
+    public static final String CAMERA = Manifest.permission.CAMERA;
 
 	public ConvScannerPlugin() {}
 
@@ -41,49 +41,52 @@ public class ConvScannerPlugin extends CordovaPlugin {
 		super.initialize(cordova, webView);
 		Log.i("convertigo","Init Plugin!");
 		this._this = this;
-	}
-
-	
-    public void requestPerm(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                Toast.makeText(this,"Please add permission for camera", Toast.LENGTH_LONG).show();
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        MY_PERMISSIONS_REQUEST_CAMERA);
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        MY_PERMISSIONS_REQUEST_CAMERA);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+    }
+    
+    public void onRequestPermissionResult(int requestCode, String[] permissions,
+                                         int[] grantResults) throws JSONException
+    {
+        for(int r:grantResults)
+        {
+            if(r == PackageManager.PERMISSION_DENIED)
+            {
+                _cordovaCallbackContext.error("Permission denied for camera");
+                return;
             }
-        } else {
-            // Permission has already been granted
-            this.start();
         }
+        switch(requestCode)
+        {
+            case MY_PERMISSIONS_REQUEST_CAMERA:
+                this.start();
+                break;
+        }
+    }
+
+	protected void getCameraPermission(int requestCode)
+    {
+        cordova.requestPermission(this, requestCode, this.CAMERA);
     }
 	
 	public boolean execute(final String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-		this._cordovaCallbackContext = callbackContext;
+        this._cordovaCallbackContext = callbackContext;
+        Log.d("herehere", args.toString());
         if(action.equals("Scan"))
         {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    launchQuickScan();
+                    
+                    if(cordova.hasPermission(CAMERA))
+                    {
+                        //Exec
+                        start();
+                    }
+                    else
+                    {
+
+                        getCameraPermission(MY_PERMISSIONS_REQUEST_CAMERA);
+                    }
+
                 }
             });
         }
@@ -107,10 +110,6 @@ public class ConvScannerPlugin extends CordovaPlugin {
         Intent intent = new Intent(context, ConvScannerActivity.class);
         intent.putExtra("options",barecodeOpts);
 		cordova.startActivityForResult((CordovaPlugin) _this,	intent, QUICKSCAN_REQUEST_CODE);
-	}
-	public void launchQuickScan()
-	{
-        this.requestPerm();
 	}
 	
 	
@@ -146,28 +145,4 @@ public class ConvScannerPlugin extends CordovaPlugin {
 			}
 		}
 	}
-
-	@Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_CAMERA: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    this.start(v);
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
-        }
-    }
 }
