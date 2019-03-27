@@ -110,11 +110,20 @@ public class ConvScannerPlugin extends CordovaPlugin {
         Boolean laserEnabled;
         Boolean squareEnabled;
         float maskOpacity;
+        Boolean modeRestrict;
 
         BarecodeOptions barecodeOpts = new BarecodeOptions();
 
         try {
             JSONObject jObj = (JSONObject)this._args.get(0);
+
+            try{
+                modeRestrict = jObj.getBoolean("restrict");
+                barecodeOpts.SetRestrict(modeRestrict);
+            }
+            catch (JSONException e){
+                Log.d("ConvBarcode", "Parameter restrict not set or incorrect");
+            }
 
             try{
                 imgPath = jObj.getString("imgPath");

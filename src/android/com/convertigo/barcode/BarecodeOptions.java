@@ -23,8 +23,16 @@ public class BarecodeOptions implements Serializable {
     private Boolean onlyScan = false;
     private Boolean onlyKeyboard = false;
     private String imgPath;
+    private boolean restrict;
 
+    public Boolean getRestrict() {
+        return restrict;
+    }
 
+    public void SetRestrict(Boolean restrict) {
+        this.restrict = restrict;
+    }
+    
     public String getImgPath() {
         return imgPath;
     }

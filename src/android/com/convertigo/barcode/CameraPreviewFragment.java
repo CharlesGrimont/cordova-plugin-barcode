@@ -47,7 +47,17 @@ public class CameraPreviewFragment	extends Fragment implements ConvZBarScannerVi
 		// Get barcodeOpts
 		this.barecodeOpts = ((ConvScannerActivity)inflater.getContext()).barecodeOpts;
 		// Set barecode Formats
-	    _scannerView.setFormats(BarcodeFormat.ALL_FORMATS);
+		if(this.barecodeOpts.getRestrict()){
+			List<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
+			formats.add(BarcodeFormat.EAN13);
+			formats.add(BarcodeFormat.CODE128);
+			formats.add(BarcodeFormat.QRCODE);
+			_scannerView.setFormats(formats);
+		}
+		else{
+			_scannerView.setFormats(BarcodeFormat.ALL_FORMATS);
+		}
+	    
 		//Set text up value and color
 		TextView tvtUp = rootView.findViewById(idUp);
 		tvtUp.setText(this.barecodeOpts.getTextUp());
