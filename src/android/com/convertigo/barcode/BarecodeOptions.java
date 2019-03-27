@@ -32,12 +32,12 @@ public class BarecodeOptions implements Serializable {
     public void SetRestrict(Boolean restrict) {
         this.restrict = restrict;
     }
-    
+
     public String getImgPath() {
         return imgPath;
     }
 
-    public void setImgPath(String onlyScan) {
+    public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
 
