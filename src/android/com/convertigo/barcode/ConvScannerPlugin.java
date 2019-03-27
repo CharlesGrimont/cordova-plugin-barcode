@@ -72,14 +72,6 @@ public class ConvScannerPlugin extends CordovaPlugin {
 	
 	public boolean execute(final String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         this._cordovaCallbackContext = callbackContext;
-		Log.d("herehere", args.toString());
-		try{
-			
-			Log.d("herehere", cordova.file.applicationDirectory + "");
-		}
-		catch(Exception e){
-			Log.d("herehere", "exception:" + e.toString();
-		}
 		this._args = args;
 		
         if(action.equals("Scan"))
