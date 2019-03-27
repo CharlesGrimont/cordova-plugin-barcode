@@ -1,0 +1,18 @@
+{
+    "version": "0.3.24",
+    "name": "com.convertigo.barcode",
+    "cordova_name": "ConvScannerPlugin",
+    "description": "ConvBarcodeScanner for quick scans.",
+	"author": "Charles GRIMONT <charlesg@convertigo.com>, Robin Eisenberg <robin.eisenberg@oyez.fr>",
+    "license": "MIT",
+    "repo": "",
+    "issue": "",
+    "keywords": [
+        "cordova"
+    ],
+    "platforms": [
+        "android"
+    ],
+    "engines": [],
+    "englishdoc": ""
+}

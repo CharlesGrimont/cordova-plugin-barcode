@@ -1,0 +1,6 @@
+repositories {
+   jcenter()
+}
+dependencies {
+   implementation 'me.dm7.barcodescanner:zbar:1.9.13'
+}

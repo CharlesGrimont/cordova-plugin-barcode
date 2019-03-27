@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.convertigo.barcode"
+    version="0.0.">
+
+    <name>BarcodeScanner</name>
+    <description>Plugin for executing -native- normal and quick scans in any application. </description>
+	<author> Charles Grimont (charlesg@convertigo.com) </author>
+	<author> Robin Eisenberg (robin.eisenberg@oyez.fr) </author>
+    <license>MIT</license>
+    
+    <engines>
+        <engine name="cordova" version=">=4.0.0" />
+    </engines>  
+	
+    <js-module src="www/ConvBarcodeScanner.js" name="ConvScannerPlugin">
+		<clobbers target="ConvScannerPlugin"/>
+    </js-module>
+	
+	<feature name="ConvBarcodeScanner">
+        <param name="android-package" value="com.convertigo.barcode.barcodeConvScannerPlugin" />
+	</feature>
+	
+    <!-- android -->
+    <platform name="android">
+		<framework src="src/android/plugin.gradle" custom="true" type="gradleReference"/>
+		
+        <asset src="www/ConvBarcodeScanner.js" target="js/ConvBarcodeScanner.js"/>
+        <source-file src="src/android/com/convertigo/barcode/ConvScannerPlugin.java" target-dir="src/com/convertigo/barcode" />
+	
+		<config-file target="res/xml/config.xml" parent="/*">
+            <feature name="ConvBarcodeScanner" >
+                <param name="android-package" value="com.convertigo.barcode.ConvScannerPlugin"/>
+            </feature>
+        </config-file>
+		
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity
+                android:name="com.convertigo.barcode.ConvScannerActivity"
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            </activity>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.FLASHLIGHT" />
+            <!-- Not required to allow users to work around this -->
+			<uses-feature android:name="android.hardware.camera" android:required="false" />
+        </config-file>
+		
+		<!-- add entries to strings.xml in /res/values  -->
+        <config-file target="res/values/strings.xml" parent="/resources">
+			
+        </config-file>
+		
+
+			<!-- res files -->
+			<source-file src="src/android/res/drawable/barcode.png" target-dir="res/drawable"/>
+			<source-file src="src/android/res/drawable/bg_edittext.png" target-dir="res/drawable"/>
+			<source-file src="src/android/res/drawable/btn_kb_off.png" target-dir="res/drawable"/>
+			<source-file src="src/android/res/drawable/btn_kb_on.png" target-dir="res/drawable"/>
+			<source-file src="src/android/res/drawable/btn_scan_off.png" target-dir="res/drawable"/>
+			<source-file src="src/android/res/drawable/btn_scan_on.png" target-dir="res/drawable"/>
+			<source-file src="src/android/res/drawable/logo_conv.png" target-dir="res/drawable"/>
+			<source-file src="src/android/res/xml/fragment_camera_preview.xml" target-dir="res/layout"/>
+			<source-file src="src/android/res/xml/fragment_manual_input.xml" target-dir="res/layout"/>
+			<source-file src="src/android/res/xml/scanner_activity.xml" target-dir="res/layout"/>
+			<!-- source files -->
+			<source-file src="src/android/com/convertigo/barcode/BarecodeOptions.java" target-dir="src/com/convertigo/barcode"/>
+			<source-file src="src/android/com/convertigo/barcode/CameraPreviewFragment.java" target-dir="src/com/convertigo/barcode"/>
+			<source-file src="src/android/com/convertigo/barcode/ConvScannerActivity.java" target-dir="src/com/convertigo/barcode"/>
+			<source-file src="src/android/com/convertigo/barcode/ForcedKeyboardLinearLayout.java" target-dir="src/com/convertigo/barcode"/>
+			<source-file src="src/android/com/convertigo/barcode/ManualInputFragment.java" target-dir="src/com/convertigo/barcode"/>
+			<source-file src="src/android/com/convertigo/barcode/ConvZBarScannerView.java" target-dir="src/com/convertigo/barcode"/>
+			</platform>
+
+
+</plugin>
