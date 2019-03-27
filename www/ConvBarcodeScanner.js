@@ -1,5 +1,5 @@
 module.exports = {
-	scan: (onSuccessCallback, onCancelCallback)=>{
+	scan: (parameters, onSuccessCallback, onCancelCallback)=>{
 		cordova.exec(function(result){
 			if(result.returnCode == 0 && typeof(onCancelCallback) !== 'undefined') onCancelCallback();
 			else 
@@ -17,6 +17,17 @@ module.exports = {
 			console.error("JSON Error ConvBarcodeScanner"); 
 		},
 		"ConvBarcodeScanner",
-		"Scan",[]);
+		"Scan",parametersAsArray(parameters));
+	}
+};
+
+parametersAsArray = (parameters)=> {
+	let array = [];
+	if(parameters != undefined){
+		return null;
+	}
+	else{
+		parameters["laserColor"] != undefined ? array.push(parameters["laserColor"]) : array.push(null);
+		parameters["laserEnabled"] != undefined ? array.push(parameters["laserEnabled"]) : array.push(null);
 	}
 };
